@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科研资讯推送管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 左侧导航栏 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>科研资讯推送系统</h1>
+            </div>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" data-route="home">
+                    <span class="menu-icon">🏠</span>
+                    <span class="menu-text">首页</span>
+                </a>
+                <a href="#" class="menu-item" data-route="hospitals">
+                    <span class="menu-icon">🏥</span>
+                    <span class="menu-text">医院列表</span>
+                </a>
+                <a href="#" class="menu-item" data-route="profile">
+                    <span class="menu-icon">👤</span>
+                    <span class="menu-text">个人中心</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 首页内容 -->
+            <div id="home" class="page active">
+                <section class="hero-section">
+                    <div class="container">
+                        <div class="hero-content">
+                            <h1>科研资讯推送管理系统</h1>
+                            <p>为医院、学校、科研中心机构提供最新的科研资讯，支持定制化推送内容</p>
+                            <div class="hero-actions">
+                                <button class="btn-primary btn-large" id="getStartedBtn">开始使用</button>
+                                <button class="btn-secondary btn-large" id="learnMoreBtn">了解更多</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 医院列表页面 -->
+            <div id="hospitals" class="page">
+                <!-- 页面头部 -->
+                <div class="page-hero">
+                    <div class="container">
+                        <!-- 面包屑导航 -->
+                        <nav class="breadcrumb-nav">
+                            <a href="#" class="breadcrumb-item" data-route="home">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-7 7A.5.5 0 0 0 1 8.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                                </svg>
+                                首页
+                            </a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span class="breadcrumb-item current">医院列表</span>
+                        </nav>
+                        
+                        <!-- 页面标题和操作区 -->
+                        <div class="page-header-content">
+                            <div class="page-title-section">
+                                <h1 class="page-title">医院列表</h1>
+                                <p class="page-subtitle">浏览最新申报的医院机构</p>
+                            </div>
+                            <div class="page-actions">
+                                <div class="search-container">
+                                    <div class="search-input-wrapper">
+                                        <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M19 19L13 13L19 19ZM15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <input type="text" placeholder="搜索医院名称..." id="hospitalSearch" class="search-input">
+                                    </div>
+                                </div>
+                                <button class="filter-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4 6h12M6 10h8M8 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    筛选
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-section">
+                    <div class="container">
+                        <div class="card-grid" id="hospitalList">
+                            <!-- 医院卡片将动态生成 -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 分页组件 - 固定在右下角 -->
+                <div class="pagination-fixed">
+                    <div class="pagination">
+                        <button class="pagination-btn" data-direction="prev">&lt;</button>
+                        <button class="pagination-btn active" data-page="1">1</button>
+                        <button class="pagination-btn" data-page="2">2</button>
+                        <button class="pagination-btn" data-page="3">3</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn" data-page="8">8</button>
+                        <button class="pagination-btn" data-direction="next">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 科室列表页面（作为医院的子页面） -->
+            <div id="departments" class="page">
+                <!-- 页面头部 -->
+                <div class="page-hero">
+                    <div class="container">
+                        <!-- 面包屑导航 -->
+                        <nav class="breadcrumb-nav">
+                            <a href="#" class="breadcrumb-item" data-route="home">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-7 7A.5.5 0 0 0 1 8.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                                </svg>
+                                首页
+                            </a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-item" data-route="hospitals">医院列表</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span class="breadcrumb-item current" id="hospitalName">医院科室</span>
+                        </nav>
+                        
+                        <!-- 页面标题和操作区 -->
+                        <div class="page-header-content">
+                            <div class="page-title-section">
+                                <button class="back-btn" id="backToHospitals">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    返回
+                                </button>
+                                <div class="title-group">
+                                    <h1 class="page-title" id="departmentPageTitle">科室列表</h1>
+                                    <p class="page-subtitle">选择感兴趣的科室查看相关课题</p>
+                                </div>
+                            </div>
+                            <div class="page-actions">
+                                <div class="search-container">
+                                    <div class="search-input-wrapper">
+                                        <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M19 19L13 13L19 19ZM15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <input type="text" placeholder="搜索科室名称..." id="departmentSearch" class="search-input">
+                                    </div>
+                                </div>
+                                <button class="filter-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4 6h12M6 10h8M8 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    筛选
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-section">
+                    <div class="container">
+                        <div class="card-grid" id="departmentList">
+                            <!-- 科室卡片将动态生成 -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 分页组件 - 固定在右下角 -->
+                <div class="pagination-fixed">
+                    <div class="pagination">
+                        <button class="pagination-btn" data-direction="prev">&lt;</button>
+                        <button class="pagination-btn active" data-page="1">1</button>
+                        <button class="pagination-btn" data-page="2">2</button>
+                        <button class="pagination-btn" data-page="3">3</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn" data-page="5">5</button>
+                        <button class="pagination-btn" data-direction="next">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 课题列表页面（作为科室的子页面） -->
+            <div id="projects" class="page">
+                <!-- 页面头部 -->
+                <div class="page-hero">
+                    <div class="container">
+                        <!-- 面包屑导航 -->
+                        <nav class="breadcrumb-nav">
+                            <a href="#" class="breadcrumb-item" data-route="home">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-7 7A.5.5 0 0 0 1 8.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                                </svg>
+                                首页
+                            </a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-item" data-route="hospitals">医院列表</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-item" id="breadcrumbHospital">医院</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span class="breadcrumb-item current" id="departmentName">科室课题</span>
+                        </nav>
+                        
+                        <!-- 页面标题和操作区 -->
+                        <div class="page-header-content">
+                            <div class="page-title-section">
+                                <button class="back-btn" id="backToDepartments">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    返回
+                                </button>
+                                <div class="title-group">
+                                    <h1 class="page-title" id="projectPageTitle">课题列表</h1>
+                                    <p class="page-subtitle">探索科研课题，申请加入感兴趣的项目</p>
+                                </div>
+                            </div>
+                            <div class="page-actions">
+                                <div class="search-container">
+                                    <div class="search-input-wrapper">
+                                        <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M19 19L13 13L19 19ZM15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <input type="text" placeholder="搜索课题名称或负责人..." id="projectSearch" class="search-input">
+                                    </div>
+                                </div>
+                                <button class="filter-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4 6h12M6 10h8M8 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    筛选
+                                </button>
+                                <button class="btn-primary create-btn" id="createProjectBtn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    新建课题
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-section">
+                    <div class="container">
+                        <div class="card-grid" id="projectList">
+                            <!-- 课题卡片将动态生成 -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 分页组件 - 固定在右下角 -->
+                <div class="pagination-fixed">
+                    <div class="pagination">
+                        <button class="pagination-btn" data-direction="prev">&lt;</button>
+                        <button class="pagination-btn active" data-page="1">1</button>
+                        <button class="pagination-btn" data-page="2">2</button>
+                        <button class="pagination-btn" data-page="3">3</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn" data-page="6">6</button>
+                        <button class="pagination-btn" data-direction="next">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 个人中心页面 -->
+            <div id="profile" class="page">
+                <section class="page-header">
+                    <div class="container">
+                        <h1>个人中心</h1>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="container">
+                        <div class="profile-layout">
+                            <div class="profile-sidebar">
+                                <div class="profile-card">
+                                    <div class="profile-avatar">
+                                        <img src="data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='30' fill='%23E5E7EB'/%3E%3Cpath d='M30 30C33.3137 30 36 27.3137 36 24C36 20.6863 33.3137 18 30 18C26.6863 18 24 20.6863 24 24C24 27.3137 26.6863 30 30 30Z' fill='%23CBD5E1'/%3E%3Cpath d='M30 33C23.3726 33 18 38.3726 18 45V48H42V45C42 38.3726 36.6274 33 30 33Z' fill='%23CBD5E1'/%3E%3C/svg%3E" alt="用户头像" id="userAvatar">
+                                    </div>
+                                    <h3 id="userName">未登录</h3>
+                                    <p class="user-role" id="userRole">请先登录</p>
+                                    <div class="certification-status" id="certificationStatus">
+                                        <span class="status-badge status-unverified">未认证</span>
+                                    </div>
+                                </div>
+
+                                <div class="profile-menu">
+                                    <a href="#" class="menu-item active" data-tab="info">个人信息</a>
+                                    <a href="#" class="menu-item" data-tab="certification">身份认证</a>
+                                    <a href="#" class="menu-item" data-tab="projects">我的课题</a>
+                                    <a href="#" class="menu-item" data-tab="subscription">订阅管理</a>
+                                    <a href="#" class="menu-item" data-tab="settings">设置</a>
+                                </div>
+                            </div>
+
+                            <div class="profile-content">
+                                <div id="info" class="tab-content active">
+                                    <div class="content-card">
+                                        <h3>个人信息</h3>
+                                        <div class="form-group">
+                                            <label>姓名</label>
+                                            <input type="text" id="profileName" placeholder="请输入姓名">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>手机号</label>
+                                            <input type="tel" id="profilePhone" placeholder="请输入手机号">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>邮箱</label>
+                                            <input type="email" id="profileEmail" placeholder="请输入邮箱">
+                                        </div>
+                                        <button class="btn-primary">保存</button>
+                                    </div>
+                                </div>
+
+                                <div id="certification" class="tab-content">
+                                    <div class="content-card">
+                                        <h3>身份认证</h3>
+                                        <div class="certification-guide">
+                                            <p>完成身份认证后，您可以创建课题、加入推送群并获得定制化的科研资讯推送。</p>
+                                            <div class="certification-steps">
+                                                <div class="step">
+                                                    <div class="step-number">1</div>
+                                                    <div class="step-content">
+                                                        <h4>上传证件</h4>
+                                                        <p>上传工作证件或相关资质证明</p>
+                                                    </div>
+                                                </div>
+                                                <div class="step">
+                                                    <div class="step-number">2</div>
+                                                    <div class="step-content">
+                                                        <h4>填写信息</h4>
+                                                        <p>完善医院、科室等基本信息</p>
+                                                    </div>
+                                                </div>
+                                                <div class="step">
+                                                    <div class="step-number">3</div>
+                                                    <div class="step-content">
+                                                        <h4>等待审核</h4>
+                                                        <p>管理员将在1-3个工作日内完成审核</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn-primary btn-large" id="startCertificationBtn">开始认证</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- 模态弹窗容器 -->
+        <div id="modalContainer"></div>
+        
+        <!-- 课题申请加入模态弹窗 -->
+        <div id="joinProjectModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>申请加入课题</h2>
+                    <button class="modal-close" id="closeJoinModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="project-info">
+                        <h3 id="joinProjectTitle">课题名称</h3>
+                        <p id="joinProjectDescription">课题描述</p>
+                        <div class="project-details">
+                            <span class="detail-item">负责人：<span id="joinProjectLeader"></span></span>
+                            <span class="detail-item">所属科室：<span id="joinProjectDepartment"></span></span>
+                        </div>
+                    </div>
+                    
+                    <form id="joinProjectForm">
+                        <div class="form-group">
+                            <label for="joinReason">申请理由</label>
+                            <textarea id="joinReason" placeholder="请简述您申请加入此课题的理由和能够提供的帮助" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="joinRole">期望角色</label>
+                            <select id="joinRole" required>
+                                <option value="">请选择期望角色</option>
+                                <option value="研究员">研究员</option>
+                                <option value="助理研究员">助理研究员</option>
+                                <option value="数据分析师">数据分析师</option>
+                                <option value="临床协调员">临床协调员</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="joinExperience">相关经验</label>
+                            <textarea id="joinExperience" placeholder="请简述您在相关领域的经验和技能" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="joinContact">联系方式</label>
+                            <input type="text" id="joinContact" placeholder="请输入您的联系方式（手机号或邮箱）" required>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" id="cancelJoinBtn">取消</button>
+                            <button type="submit" class="btn-primary">提交申请</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

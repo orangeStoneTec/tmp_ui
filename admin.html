@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 科研资讯推送管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+    <div id="adminApp">
+        <!-- 顶部导航栏 -->
+        <nav class="admin-navbar">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <h2>管理后台</h2>
+                </div>
+                <div class="navbar-search">
+                    <div class="search-box">
+                        <input type="text" placeholder="搜索用户/群/医院/科室" id="globalSearch">
+                        <button class="search-btn">
+                            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                                <path d="M19 19L13 13L19 19ZM15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="navbar-actions">
+                    <div class="notification-center">
+                        <button class="notification-btn" id="notificationBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="notification-badge">5</span>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="profile-info">
+                            <span class="admin-name">管理员</span>
+                            <span class="admin-role">超级管理员</span>
+                        </div>
+                        <div class="profile-avatar">
+                            <img src="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%234F46E5'/%3E%3Cpath d='M16 16C18.2091 16 20 14.2091 20 12C20 9.79086 18.2091 8 16 8C13.7909 8 12 9.79086 12 12C12 14.2091 13.7909 16 16 16Z' fill='white'/%3E%3Cpath d='M16 18C12.134 18 9 21.134 9 25H23C23 21.134 19.866 18 16 18Z' fill='white'/%3E%3C/svg%3E" alt="管理员头像">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="admin-container">
+            <!-- 左侧导航菜单 -->
+            <aside class="admin-sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-route="dashboard">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="12" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="3" y="16" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>仪表盘</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="certifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 13L12 17L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>资格证审核</span>
+                        <span class="badge" id="certificationsBadge">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="users">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M17 21V19C17 17.9 16.1 17 15 17H9C7.9 17 7 17.9 7 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M23 21V19C23 18.13 22.38 17.4 21.53 17.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 3.13C16.84 3.4 17.46 4.13 17.46 5S16.84 6.6 16 6.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="projects">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>项目管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="groups">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M17 21V19C17 17.9 16.1 17 15 17H9C7.9 17 7 17.9 7 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M23 21V19C23 18.13 22.38 17.4 21.53 17.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 3.13C16.84 3.4 17.46 4.13 17.46 5S16.84 6.6 16 6.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>群管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="approvals">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>加群审批</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="hospitals">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 21H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 21V7L13 2L21 7V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 11H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>医院管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="departments">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>科室管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="analytics">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3V21H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9L12 6L16 10L21 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>数据统计</span>
+                    </a>
+                    <a href="#" class="nav-item" data-route="settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>系统设置</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- 主要内容区域 -->
+            <main class="admin-main">
+                <!-- 仪表盘页面 -->
+                <div id="dashboard" class="admin-page active">
+                    <div class="page-header">
+                        <h1>仪表盘</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary">导出报表</button>
+                            <button class="btn-primary">刷新数据</button>
+                        </div>
+                    </div>
+
+                    <!-- 数据概览卡片 -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>待审核资格证</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-change positive">+3 较昨日</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>待审批加群请求</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M17 21V19C17 17.9 16.1 17 15 17H9C7.9 17 7 17.9 7 19V21" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-change negative">-2 较昨日</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>活跃群组</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value">156</div>
+                            <div class="stat-change positive">+12 本周</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>总用户数</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M17 21V19C17 17.9 16.1 17 15 17H9C7.9 17 7 17.9 7 19V21" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M23 21V19C23 18.13 22.38 17.4 21.53 17.13" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 3.13C16.84 3.4 17.46 4.13 17.46 5S16.84 6.6 16 6.87" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value">2,847</div>
+                            <div class="stat-change positive">+145 本月</div>
+                        </div>
+                    </div>
+
+                    <!-- 图表区域 -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>用户增长趋势</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-text">本周</button>
+                                    <button class="btn-text active">本月</button>
+                                    <button class="btn-text">本季度</button>
+                                </div>
+                            </div>
+                            <div class="chart-content" id="userGrowthChart">
+                                <!-- 图表将在这里渲染 -->
+                                <div class="chart-placeholder">
+                                    <svg width="100%" height="200" viewBox="0 0 400 200">
+                                        <path d="M50,180 Q100,120 150,100 T250,80 T350,60" stroke="#4F46E5" stroke-width="3" fill="none"/>
+                                        <circle cx="50" cy="180" r="4" fill="#4F46E5"/>
+                                        <circle cx="150" cy="100" r="4" fill="#4F46E5"/>
+                                        <circle cx="250" cy="80" r="4" fill="#4F46E5"/>
+                                        <circle cx="350" cy="60" r="4" fill="#4F46E5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>内容点击率分析</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-text active">今日</button>
+                                    <button class="btn-text">本周</button>
+                                    <button class="btn-text">本月</button>
+                                </div>
+                            </div>
+                            <div class="chart-content" id="clickRateChart">
+                                <div class="chart-placeholder">
+                                    <svg width="100%" height="200" viewBox="0 0 400 200">
+                                        <rect x="50" y="150" width="60" height="30" fill="#4F46E5" rx="4"/>
+                                        <rect x="130" y="120" width="60" height="60" fill="#06B6D4" rx="4"/>
+                                        <rect x="210" y="100" width="60" height="80" fill="#10B981" rx="4"/>
+                                        <rect x="290" y="130" width="60" height="50" fill="#F59E0B" rx="4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最近操作 -->
+                    <div class="recent-activities">
+                        <div class="activity-header">
+                            <h3>最近操作</h3>
+                            <a href="#" class="view-all">查看全部</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon approved">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>张医生</strong> 的资格证审核已通过</p>
+                                    <span class="activity-time">5分钟前</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon rejected">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>李研究员</strong> 的加群申请被拒绝</p>
+                                    <span class="activity-time">15分钟前</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M12 16V12" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M12 8H12.01" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <p>新增医院 <strong>北京大学第三医院</strong></p>
+                                    <span class="activity-time">1小时前</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资格证审核页面 -->
+                <div id="certifications" class="admin-page">
+                    <div class="page-header">
+                        <h1>资格证审核</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showBatchOperations()">批量操作</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('certifications')">导出列表</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="status" onchange="adminApp.filterCertifications()">
+                                <option value="">所有状态</option>
+                                <option value="pending">待审核</option>
+                                <option value="approved">已通过</option>
+                                <option value="rejected">已拒绝</option>
+                                <option value="need_more">需补充材料</option>
+                            </select>
+                            <select class="filter-select" name="type" onchange="adminApp.filterCertifications()">
+                                <option value="">所有类型</option>
+                                <option value="doctor">医师执业证</option>
+                                <option value="nurse">护士执业证</option>
+                                <option value="researcher">科研人员证明</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索用户姓名或手机号" class="filter-input" oninput="adminApp.debounceSearch(this.value, 'certifications')">
+                            <button class="btn-secondary" onclick="adminApp.resetFilters('certifications')">重置</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all" onchange="adminApp.toggleSelectAll(this)"></th>
+                                    <th>用户信息</th>
+                                    <th>医院科室</th>
+                                    <th>证件类型</th>
+                                    <th>提交时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="certificationsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="certificationsPagination">
+                        <div class="pagination-info">
+                            显示 1-10 条，共 85 条记录
+                        </div>
+                        <div class="pagination">
+                            <button class="pagination-btn" disabled>&lt;</button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <span class="pagination-dots">...</span>
+                            <button class="pagination-btn">9</button>
+                            <button class="pagination-btn">&gt;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户管理页面 -->
+                <div id="users" class="admin-page">
+                    <div class="page-header">
+                        <h1>用户管理</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showUserFilters()">高级筛选</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('users')">导出数据</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="role">
+                                <option value="">所有角色</option>
+                                <option value="user">普通用户</option>
+                                <option value="admin">管理员</option>
+                                <option value="super_admin">超级管理员</option>
+                            </select>
+                            <select class="filter-select" name="status">
+                                <option value="">所有状态</option>
+                                <option value="active">正常</option>
+                                <option value="inactive">未激活</option>
+                                <option value="banned">已封禁</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索用户名、姓名或手机号" class="filter-input">
+                            <button class="btn-secondary">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th>用户信息</th>
+                                    <th>医院科室</th>
+                                    <th>角色权限</th>
+                                    <th>注册时间</th>
+                                    <th>最后登录</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="usersPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 项目管理页面 -->
+                <div id="projects" class="admin-page">
+                    <div class="page-header">
+                        <h1>项目管理</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showProjectStatistics()">统计分析</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('projects')">导出项目</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="type">
+                                <option value="">所有类型</option>
+                                <option value="临床研究">临床研究</option>
+                                <option value="基础研究">基础研究</option>
+                                <option value="转化研究">转化研究</option>
+                                <option value="教学研究">教学研究</option>
+                                <option value="管理研究">管理研究</option>
+                                <option value="其他">其他</option>
+                            </select>
+                            <select class="filter-select" name="status">
+                                <option value="">所有状态</option>
+                                <option value="active">进行中</option>
+                                <option value="completed">已完成</option>
+                                <option value="paused">暂停</option>
+                                <option value="cancelled">已取消</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索项目名称或负责人" class="filter-input">
+                            <button class="btn-secondary">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th>项目信息</th>
+                                    <th>负责人</th>
+                                    <th>类型</th>
+                                    <th>成员数量</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="projectsPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 医院管理页面 -->
+                <div id="hospitals" class="admin-page">
+                    <div class="page-header">
+                        <h1>医院管理</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showAddHospital()">新增医院</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('hospitals')">导出数据</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="level">
+                                <option value="">所有等级</option>
+                                <option value="三甲">三甲</option>
+                                <option value="三乙">三乙</option>
+                                <option value="二甲">二甲</option>
+                                <option value="二乙">二乙</option>
+                                <option value="一甲">一甲</option>
+                                <option value="一乙">一乙</option>
+                                <option value="其他">其他</option>
+                            </select>
+                            <select class="filter-select" name="type">
+                                <option value="">所有类型</option>
+                                <option value="综合医院">综合医院</option>
+                                <option value="专科医院">专科医院</option>
+                                <option value="中医医院">中医医院</option>
+                                <option value="妇幼保健院">妇幼保健院</option>
+                                <option value="其他">其他</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索医院名称或地区" class="filter-input">
+                            <button class="btn-secondary">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th>医院信息</th>
+                                    <th>等级类型</th>
+                                    <th>地区</th>
+                                    <th>科室数量</th>
+                                    <th>用户数量</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hospitalsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="hospitalsPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 群管理页面 -->
+                <div id="groups" class="admin-page">
+                    <div class="page-header">
+                        <h1>群管理</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showBatchOperations()">批量操作</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('groups')">导出数据</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="platform">
+                                <option value="">所有平台</option>
+                                <option value="企业微信">企业微信</option>
+                                <option value="微信群">微信群</option>
+                                <option value="钉钉">钉钉</option>
+                            </select>
+                            <select class="filter-select" name="status">
+                                <option value="">所有状态</option>
+                                <option value="active">正常</option>
+                                <option value="frozen">冻结</option>
+                                <option value="hidden">隐藏</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索群组名称/分类" class="filter-input">
+                            <button class="btn-secondary" onclick="adminApp.resetFilters('groups')">重置</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all" onchange="adminApp.toggleSelectAll(this)"></th>
+                                    <th>群组信息</th>
+                                    <th>平台</th>
+                                    <th>成员数</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groupsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="groupsPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 加群审批页面 -->
+                <div id="approvals" class="admin-page">
+                    <div class="page-header">
+                        <h1>加群审批</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showBatchOperations()">批量操作</button>
+                            <button class="btn-primary" onclick="adminApp.exportData('approvals')">导出数据</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="status">
+                                <option value="">所有状态</option>
+                                <option value="pending">待审</option>
+                                <option value="approved">通过</option>
+                                <option value="rejected">拒绝</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索申请人/群组" class="filter-input">
+                            <button class="btn-secondary" onclick="adminApp.resetFilters('approvals')">重置</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all" onchange="adminApp.toggleSelectAll(this)"></th>
+                                    <th>申请人</th>
+                                    <th>目标群组</th>
+                                    <th>认证状态</th>
+                                    <th>提交时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approvalsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="approvalsPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 科室管理页面 -->
+                <div id="departments" class="admin-page">
+                    <div class="page-header">
+                        <h1>科室管理</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.showAddDepartment()">新增科室</button>
+                            <button class="btn-primary" onclick="adminApp.showDepartmentStats()">统计分析</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" name="hospital_id">
+                                <option value="">所有医院</option>
+                                <!-- 医院选项将动态加载 -->
+                            </select>
+                            <select class="filter-select" name="status">
+                                <option value="">所有状态</option>
+                                <option value="active">正常</option>
+                                <option value="inactive">停用</option>
+                            </select>
+                            <input type="text" name="search" placeholder="搜索科室名称或负责人" class="filter-input">
+                            <button class="btn-secondary">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th>科室信息</th>
+                                    <th>所属医院</th>
+                                    <th>负责人</th>
+                                    <th>用户数量</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departmentsTable">
+                                <!-- 数据行将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination" id="departmentsPagination">
+                        <div class="pagination-info">显示数据信息</div>
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 数据统计页面 -->
+                <div id="analytics" class="admin-page">
+                    <div class="page-header">
+                        <h1>数据统计</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.refreshAnalytics()">刷新数据</button>
+                            <button class="btn-primary" onclick="adminApp.exportAnalytics()">导出报表</button>
+                        </div>
+                    </div>
+
+                    <!-- 统计概览 -->
+                    <div class="stats-grid" id="analyticsStats">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>总用户数</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M17 21V19C17 17.9 16.1 17 15 17H9C7.9 17 7 17.9 7 19V21" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-change positive">+145 本月</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>活跃项目</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value" id="activeProjects">0</div>
+                            <div class="stat-change positive">+23 本月</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>认证通过率</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value" id="approvalRate">0%</div>
+                            <div class="stat-change positive">+5% 本月</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>医院机构</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 21H21" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M5 21V7L13 2L21 7V21" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-value" id="totalHospitals">0</div>
+                            <div class="stat-change positive">+12 本月</div>
+                        </div>
+                    </div>
+
+                    <!-- 图表区域 -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>用户增长趋势</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-text">本周</button>
+                                    <button class="btn-text active">本月</button>
+                                    <button class="btn-text">本年</button>
+                                </div>
+                            </div>
+                            <div class="chart-content" id="userGrowthChart">
+                                <div class="chart-placeholder">
+                                    <canvas id="userGrowthCanvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>项目类型分布</h3>
+                            </div>
+                            <div class="chart-content" id="projectTypeChart">
+                                <div class="chart-placeholder">
+                                    <canvas id="projectTypeCanvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统设置页面 -->
+                <div id="settings" class="admin-page">
+                    <div class="page-header">
+                        <h1>系统设置</h1>
+                        <div class="page-actions">
+                            <button class="btn-secondary" onclick="adminApp.resetSettings()">恢复默认</button>
+                            <button class="btn-primary" onclick="adminApp.saveSettings()">保存设置</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="setting-section">
+                            <h3>系统基础配置</h3>
+                            <div class="setting-item">
+                                <label>系统名称</label>
+                                <input type="text" class="form-input" value="科研资讯推送管理系统" id="systemName">
+                            </div>
+                            <div class="setting-item">
+                                <label>审核超时时间 (小时)</label>
+                                <input type="number" class="form-input" value="72" id="reviewTimeout">
+                            </div>
+                            <div class="setting-item">
+                                <label>单页显示数量</label>
+                                <select class="form-select" id="pageSize">
+                                    <option value="10">10条/页</option>
+                                    <option value="20">20条/页</option>
+                                    <option value="50">50条/页</option>
+                                    <option value="100">100条/页</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-section">
+                            <h3>认证审核配置</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="autoApprovalEnabled">
+                                    启用自动审核
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>审核员通知方式</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" checked> 邮件通知</label>
+                                    <label><input type="checkbox"> 短信通知</label>
+                                    <label><input type="checkbox" checked> 站内消息</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-section">
+                            <h3>数据导出配置</h3>
+                            <div class="setting-item">
+                                <label>导出格式</label>
+                                <select class="form-select" id="exportFormat">
+                                    <option value="xlsx">Excel (.xlsx)</option>
+                                    <option value="csv">CSV (.csv)</option>
+                                    <option value="pdf">PDF (.pdf)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 右侧抽屉 -->
+        <div id="drawerOverlay" class="drawer-overlay">
+            <div class="drawer">
+                <div class="drawer-header">
+                    <h3 id="drawerTitle">详情</h3>
+                    <button class="drawer-close" id="closeDrawer">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="drawer-content" id="drawerContent">
+                    <!-- 抽屉内容将动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/admin-api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
